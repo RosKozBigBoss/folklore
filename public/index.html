@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HiTsHoP Folklore - Music Generation</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .form-group { margin-bottom: 1em; }
+        label { display: block; margin-bottom: 0.5em; }
+        input, select, textarea { width: 100%; padding: 0.5em; }
+        button { padding: 0.7em 1.5em; cursor: pointer; }
+        #results { margin-top: 2em; padding: 1em; border: 1px solid #ccc; }
+        #player { margin-top: 1em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bulgarian Music Generation</h1>
+        <form id="generation-form">
+            <div class="form-group">
+                <label for="description">Describe your music:</label>
+                <textarea id="description" name="description" rows="3" placeholder="e.g., 'Traditional shop region folk dance with gaida and tupan for winter celebration'"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="region">Region:</label>
+                <select id="region" name="region">
+                    <option value="Shop">Shop Region</option>
+                    <option value="Pirin">Pirin Region</option>
+                    <option value="Thracian">Thracian Region</option>
+                    <option value="Rhodope">Rhodope Region</option>
+                    <option value="Northern">Northern Region</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Instruments:</label>
+                <div>
+                    <input type="checkbox" id="gaida" name="instruments" value="gaida"> <label for="gaida">Gaida</label>
+                    <input type="checkbox" id="kaval" name="instruments" value="kaval"> <label for="kaval">Kaval</label>
+                    <input type="checkbox" id="gadulka" name="instruments" value="gadulka"> <label for="gadulka">Gadulka</label>
+                    <input type="checkbox" id="tupan" name="instruments" value="tupan"> <label for="tupan">Tupan</label>
+                    <input type="checkbox" id="tambura" name="instruments" value="tambura"> <label for="tambura">Tambura</label>
+                    <input type="checkbox" id="zurla" name="instruments" value="zurla"> <label for="zurla">Zurla</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="rhythm">Rhythm:</label>
+                <select id="rhythm" name="rhythm">
+                    <option value="7/8">7/8</option>
+                    <option value="11/8">11/8</option>
+                    <option value="15/16">15/16</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="duration">Duration (seconds):</label>
+                <input type="number" id="duration" name="duration" min="30" max="600" value="60">
+            </div>
+            <div class="form-group">
+                <label for="authenticity">Cultural Authenticity:</label>
+                <select id="authenticity" name="authenticity">
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="style">Style:</label>
+                <select id="style" name="style">
+                    <option value="Traditional">Traditional</option>
+                    <option value="Fusion">Fusion</option>
+                    <option value="Contemporary">Contemporary</option>
+                </select>
+            </div>
+            <button type="submit">Generate</button>
+        </form>
+
+        <div id="results" style="display: none;">
+            <h2>Generation Results</h2>
+            <p><strong>Status:</strong> <span id="status"></span></p>
+            <p><strong>Cultural Authenticity Score:</strong> <span id="score"></span></p>
+            <div>
+                <strong>Traditional Elements Detected:</strong>
+                <ul id="elements"></ul>
+            </div>
+            <div id="player"></div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+
+    <div class="container" style="margin-top: 2em;">
+        <h2>Music Library</h2>
+        <div class="form-group">
+            <label for="filter-region">Filter by region:</label>
+            <select id="filter-region">
+                <option value="All">All</option>
+                <option value="Shop">Shop Region</option>
+                <option value="Pirin">Pirin Region</option>
+                <option value="Thracian">Thracian Region</option>
+                <option value="Rhodope">Rhodope Region</option>
+                <option value="Northern">Northern Region</option>
+            </select>
+            <label for="sort-authenticity">Sort by authenticity:</label>
+            <select id="sort-authenticity">
+                <option value="desc">Descending</option>
+                <option value="asc">Ascending</option>
+            </select>
+        </div>
+        <table id="history-table" style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #ccc; padding: 0.5em;">Description</th>
+                    <th style="border: 1px solid #ccc; padding: 0.5em;">Region</th>
+                    <th style="border: 1px solid #ccc; padding: 0.5em;">Authenticity Score</th>
+                    <th style="border: 1px solid #ccc; padding: 0.5em;">Audio</th>
+                </tr>
+            </thead>
+            <tbody id="history-body"></tbody>
+        </table>
+    </div>
+</body>
+</html>
