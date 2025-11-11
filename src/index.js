@@ -1,25 +1,29 @@
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
+const path = require('path');
+const { generateMusic } = require('./ai-service');
+
 const app = express();
-const port = 3001;
+const PORT = process.env.PORT || 3001;
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+const musicHistory = [];
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.json());
+
+// API endpoint for music generation
+app.post('/api/generate', async (req, res) => {
+    console.log('Received generation request:', req.body);
+    const result = await generateMusic(req.body);
+    musicHistory.unshift({ ...result, id: Date.now(), ...req.body });
+    res.json(result);
 });
 
-app.get('/api/v1', (req, res) => {
-  res.json({
-    success: true,
-    data: {
-      message: 'Welcome to the HitShop Folklore API v1'
-    },
-    meta: {
-      timestamp: new Date().toISOString(),
-      requestId: uuidv4()
-    }
-  });
+// API endpoint for retrieving music history
+app.get('/api/history', (req, res) => {
+    res.json(musicHistory);
 });
 
-app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
